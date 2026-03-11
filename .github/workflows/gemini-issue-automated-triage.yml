@@ -55,6 +55,14 @@ jobs:
           app-id: '${{ vars.APP_ID }}'
           private-key: '${{ secrets.APP_PRIVATE_KEY }}'
 
+      - name: Prove gh is authenticated
+        run: |
+          gh auth status
+          gh label list --limit 5
+          gh repo view $GITHUB_REPOSITORY --json nameWithOwner,viewerPermission
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       - name: 'Run Gemini Issue Triage'
         uses: 'google-github-actions/run-gemini-cli@v0'
         id: 'gemini_issue_triage'
