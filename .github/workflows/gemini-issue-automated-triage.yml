@@ -65,18 +65,23 @@ jobs:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
 
-      - name: Provide GH token to Gemini CLI
+      - name: Configure gh auth non-interactively
         run: |
-          mkdir -p .gemini
-          cat > .env <<'EOF'
-          GH_TOKEN=${{ secrets.PAT_TOKEN }}
-          GITHUB_TOKEN=${{ secrets.PAT_TOKEN }}
+          mkdir -p /tmp/gh-config
+          cat > /tmp/gh-config/hosts.yml <<EOF
+          github.com:
+            user: shakreiner
+            oauth_token: ${PAT}
+            git_protocol: https
           EOF
+        env:
+          PAT: ${{ secrets.PAT_TOKEN }}
 
       - name: 'Run Gemini Issue Triage'
         uses: 'google-github-actions/run-gemini-cli@v0'
         id: 'gemini_issue_triage'
         env:
+          GH_CONFIG_DIR: /tmp/gh-config
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
           # GH_TOKEN: '${{ steps.generate_token.outputs.token || secrets.GITHUB_TOKEN }}'
