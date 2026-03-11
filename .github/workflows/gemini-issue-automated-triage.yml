@@ -89,6 +89,8 @@ jobs:
           ISSUE_NUMBER: '${{ github.event.issue.number }}'
           REPOSITORY: '${{ github.repository }}'
         with:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN || github.token }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN || github.token }}
           gemini_model: 'gemini-2.5-flash'
           gemini_cli_version: '${{ vars.GEMINI_CLI_VERSION }}'
           gcp_workload_identity_provider: '${{ vars.GCP_WIF_PROVIDER }}'
