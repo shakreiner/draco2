@@ -65,6 +65,14 @@ jobs:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
 
+      - name: Provide GH token to Gemini CLI
+        run: |
+          mkdir -p .gemini
+          cat > .gemini/.env <<'EOF'
+          GH_TOKEN=${{ secrets.PAT_TOKEN }}
+          GITHUB_TOKEN=${{ secrets.PAT_TOKEN }}
+          EOF
+
       - name: 'Run Gemini Issue Triage'
         uses: 'google-github-actions/run-gemini-cli@v0'
         id: 'gemini_issue_triage'
