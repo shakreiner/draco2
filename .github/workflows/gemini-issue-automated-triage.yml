@@ -68,7 +68,7 @@ jobs:
       - name: Provide GH token to Gemini CLI
         run: |
           mkdir -p .gemini
-          cat > .gemini/.env <<'EOF'
+          cat > .env <<'EOF'
           GH_TOKEN=${{ secrets.PAT_TOKEN }}
           GITHUB_TOKEN=${{ secrets.PAT_TOKEN }}
           EOF
