@@ -77,6 +77,15 @@ jobs:
         env:
           PAT: ${{ secrets.PAT_TOKEN }}
 
+      - name: Debug token presence
+        run: |
+          echo "PAT_TOKEN set? ${{ secrets.PAT_TOKEN != '' }}"
+          echo "github.token present? ${{ github.token != '' }}"
+          echo "GH_TOKEN length: ${#GH_TOKEN}"
+          gh auth status || true
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN || github.token }}
+
       - name: 'Run Gemini Issue Triage'
         uses: 'google-github-actions/run-gemini-cli@v0'
         id: 'gemini_issue_triage'
